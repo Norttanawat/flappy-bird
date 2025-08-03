@@ -6,8 +6,8 @@ let boardHeight = 640;
 let context;
 
 //bird
-let birdWidth = 34; //width/height ratio = 408/228 = 17/12
-let birdHeight = 24;
+let birdWidth = 75; //width/height ratio = 408/228 = 17/12
+let birdHeight = 65;
 let birdX = boardWidth/8;
 let birdY = boardHeight/2;
 let birdImg;
@@ -49,16 +49,16 @@ window.onload = function() {
 
     //load images
     birdImg = new Image();
-    birdImg.src = "./flappybird.png";
+    birdImg.src = "./santa-srichan.png";
     birdImg.onload = function() {
         context.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
     }
 
     topPipeImg = new Image();
-    topPipeImg.src = "./toppipe.png";
+    topPipeImg.src = "./toppipe02.png";
 
     bottomPipeImg = new Image();
-    bottomPipeImg.src = "./bottompipe.png";
+    bottomPipeImg.src = "./bottompipe01.png";
 
     requestAnimationFrame(update);
     setInterval(placePipes, 1500); //every 1.5 seconds
