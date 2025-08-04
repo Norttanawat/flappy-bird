@@ -31,7 +31,7 @@ let bottomPipeImg;
 
 //physics
 let velocityX = -2; //pipes moving left speed
-let velocityY = 2; //bird jump speed
+let velocityY = 1; //bird jump speed
 let gravity = 0.2;
 
 let gameOver = false;
@@ -98,7 +98,7 @@ function resizeCanvas() {
 
     // ปรับตัวแปรฟิสิกส์
     velocityX = -2 * widthScale;
-    gravity = 0.4 * heightScale;
+    gravity = 0.2 * heightScale;
 
     // วาดเกมใหม่
     if (!gameOver) {

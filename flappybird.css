@@ -16,16 +16,28 @@ h1 {
     color: white;
 }
 
-#jumpButton {
-    background-color: rgb(224, 63, 63);
-    color: rgb(255, 255, 255);
-    border: 2px solid black;
-    padding: 15px 15px;
-    font-size: 1.2em;
+
+  #jumpButton {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 24px;
+    font-size: 18px;
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.3);
     cursor: pointer;
-    margin-top: 0px;
-    border-radius: 100px;
-}
+    z-index: 1000;
+  }
+
+  #jumpButton:hover {
+    background-color: #ff2222;
+  }
+
+
 
 
 @media (max-width: 768px) {
