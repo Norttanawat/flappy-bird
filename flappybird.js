@@ -42,6 +42,9 @@ window.onload = function() {
     board.height = boardHeight;
     board.width = boardWidth;
     context = board.getContext("2d"); //used for drawing on the board
+    const jumpButton = document.getElementById("jumpButton");// button phone jump
+    jumpButton.addEventListener("click", moveBird);// button phone jump
+}
 
     //draw flappy bird
     // context.fillStyle = "green";
@@ -63,7 +66,7 @@ window.onload = function() {
     requestAnimationFrame(update);
     setInterval(placePipes, 1500); //every 1.5 seconds
     document.addEventListener("keydown", moveBird);
-}
+
 
 function update() {
     requestAnimationFrame(update);
@@ -146,11 +149,11 @@ function placePipes() {
 }
 
 function moveBird(e) {
-    if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX") {
-        //jump
+     if (e.type === "click" || e.code === "Space" || e.code === "ArrowUp" || e.code === "KeyX") {
+        // jump
         velocityY = -6;
 
-        //reset game
+        //game reset
         if (gameOver) {
             bird.y = birdY;
             pipeArray = [];
@@ -166,3 +169,5 @@ function detectCollision(a, b) {
            a.y < b.y + b.height &&  //a's top left corner doesn't reach b's bottom left corner
            a.y + a.height > b.y;    //a's bottom left corner passes b's top left corner
 }
+
+
