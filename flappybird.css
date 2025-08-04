@@ -27,6 +27,7 @@ h1 {
     border-radius: 100px;
 }
 
+
 @media (max-width: 768px) {
     #board {
         width: 90%; /* ให้ Canvas กว้าง 90% ของหน้าจอ */

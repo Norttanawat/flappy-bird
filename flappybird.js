@@ -112,12 +112,20 @@ function update() {
     }
 
     //score
-    context.fillStyle = "white";
-    context.font="45px sans-serif";
-    context.fillText(score, 5, 45);
+    context.fillStyle = "red";
+    context.font="40px sans-serif";
+    context.fillText(score, 20, 50);
 
     if (gameOver) {
-        context.fillText("GAME OVER", 5, 90);
+
+    // Rectangle position and size
+    context.fillRect(80, 270, 200, 40); // x, y, width, height
+    context.strokeRect(80, 270, 200, 40);
+    context.fillStyle = "white";
+    context.font = "30px sans-serif";
+    context.fillText("GAME OVER", 100, 300);
+    context.restore();
+    context.strokeRect(100 - padding / 2, 50 - textHeight + padding / 2, textWidth + padding, textHeight + padding);
     }
 }
 
