@@ -39,16 +39,71 @@ let score = 0;
 
 window.onload = function() {
     board = document.getElementById("board");
-    board.height = boardHeight;
-    board.width = boardWidth;
-    context = board.getContext("2d"); //used for drawing on the board
-    const jumpButton = document.getElementById("jumpButton");// button phone jump
-    jumpButton.addEventListener("click", moveBird);// button phone jump
-    document.addEventListener("touchstart", function(e) {
-        // ป้องกันการซูมหน้าจอเมื่อแตะ
-        e.preventDefault();
-        moveBird();
-    });
+    // ... other initializations
+    context = board.getContext("2d");
+
+    // Create and style the jump button
+    const jumpButton = document.createElement("button");
+    jumpButton.id = "jumpButton";
+    jumpButton.innerHTML = "<b>Jump</b>";
+    document.body.appendChild(jumpButton);
+
+    jumpButton.addEventListener("click", moveBird);
+
+    // Initial call to set up the responsive layout
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    
+    // ... rest of your window.onload code
+}
+
+function resizeCanvas() {
+    const canvas = document.getElementById('board');
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    const aspectRatio = originalBoardWidth / originalBoardHeight;
+
+    let newBoardWidth, newBoardHeight;
+
+    // คำนวณขนาดบอร์ดใหม่โดยรักษาสัดส่วน
+    if (windowWidth / windowHeight > aspectRatio) {
+        newBoardHeight = windowHeight * 0.9;
+        newBoardWidth = newBoardHeight * aspectRatio;
+    } else {
+        newBoardWidth = windowWidth * 0.9;
+        newBoardHeight = newBoardWidth / aspectRatio;
+    }
+
+    canvas.width = newBoardWidth;
+    canvas.height = newBoardHeight;
+
+    // คำนวณสัดส่วนการปรับขนาด
+    const widthScale = newBoardWidth / originalBoardWidth;
+    const heightScale = newBoardHeight / originalBoardHeight;
+
+    // อัปเดตตัวแปรทั่วโลกด้วยค่าที่ถูกปรับขนาดแล้ว
+    boardWidth = newBoardWidth;
+    boardHeight = newBoardHeight;
+    
+    // ปรับขนาดและตำแหน่งของนก
+    bird.width = birdWidth * widthScale;
+    bird.height = birdHeight * heightScale;
+    bird.x = (originalBoardWidth / 8) * widthScale;
+    bird.y = (originalBoardHeight / 2) * heightScale;
+
+    // ปรับขนาดและตำแหน่งของท่อ
+    pipeWidth = originalPipeWidth * widthScale;
+    pipeHeight = originalPipeHeight * heightScale;
+    pipeX = originalPipeX * widthScale;
+
+    // ปรับตัวแปรฟิสิกส์
+    velocityX = -2 * widthScale;
+    gravity = 0.4 * heightScale;
+
+    // วาดเกมใหม่
+    if (!gameOver) {
+        update();
+    }
 }
 
     //draw flappy bird
@@ -116,49 +171,30 @@ function update() {
     context.font="40px sans-serif";
     context.fillText(score, 20, 50);
 
-    if (gameOver) {
+    // ...inside the update() function...
+if (gameOver) {
+    // Draw semi-transparent background
+    context.fillStyle = "rgba(0, 0, 0, 0.5)";
+    context.fillRect(0, 0, board.width, board.height);
 
-    // Rectangle position and size
-    context.fillRect(80, 270, 200, 40); // x, y, width, height
-    context.strokeRect(80, 270, 200, 40);
+    // Draw "GAME OVER" text
+    context.fillStyle = "red";
+    context.font = "50px sans-serif";
+    context.textAlign = "center";
+    context.fillText("GAME OVER", board.width / 2, board.height / 2 - 20);
+
+    // Draw "Press Space to Restart" text
     context.fillStyle = "white";
-    context.font = "30px sans-serif";
-    context.fillText("GAME OVER", 100, 300);
-    context.restore();
-    context.strokeRect(100 - padding / 2, 50 - textHeight + padding / 2, textWidth + padding, textHeight + padding);
-    }
+    context.font = "20px sans-serif";
+    context.fillText("Press Space or Tap to Restart", board.width / 2, board.height / 2 + 20);
+    return; // Stop the update loop once the game is over
 }
 
-function placePipes() {
-    if (gameOver) {
-        return;
-    }
 
-    //(0-1) * pipeHeight/2.
-    // 0 -> -128 (pipeHeight/4)
-    // 1 -> -128 - 256 (pipeHeight/4 - pipeHeight/2) = -3/4 pipeHeight
-    let randomPipeY = pipeY - pipeHeight/4 - Math.random()*(pipeHeight/2);
-    let openingSpace = board.height/4;
 
-    let topPipe = {
-        img : topPipeImg,
-        x : pipeX,
-        y : randomPipeY,
-        width : pipeWidth,
-        height : pipeHeight,
-        passed : false
-    }
-    pipeArray.push(topPipe);
 
-    let bottomPipe = {
-        img : bottomPipeImg,
-        x : pipeX,
-        y : randomPipeY + pipeHeight + openingSpace,
-        width : pipeWidth,
-        height : pipeHeight,
-        passed : false
-    }
-    pipeArray.push(bottomPipe);
+
+
 }
 
 function moveBird(e) {
@@ -186,15 +222,46 @@ function detectCollision(a, b) {
 // ...existing code...
 window.addEventListener('resize', resizeCanvas);
 
-function resizeCanvas() {
-    const canvas = document.getElementById('board');
-    // Set canvas width and height based on window size
-    canvas.width = Math.min(window.innerWidth, 600);
-    canvas.height = Math.min(window.innerHeight * 0.6, 800);
-    // Optionally, redraw game elements here
+
+
+
+// Original dimensions for scaling
+const originalBoardWidth = 360;
+const originalBoardHeight = 640;
+const originalPipeWidth = 64;
+const originalPipeHeight = 512;
+const originalPipeX = 360;
+
+// ... โค้ดที่มีอยู่ ...
+
+function placePipes() {
+    if (gameOver) return;
+
+    let openingSpace = boardHeight / 4;
+
+    // ใช้ pipeHeight ที่ปรับขนาดแล้วเลย
+    let randomPipeY = pipeY - pipeHeight / 4 - Math.random() * (pipeHeight / 2);
+
+    let topPipe = {
+        img: topPipeImg,
+        x: boardWidth,
+        y: randomPipeY,
+        width: pipeWidth,
+        height: pipeHeight,
+        passed: false
+    }
+    pipeArray.push(topPipe);
+
+    let bottomPipe = {
+        img: bottomPipeImg,
+        x: boardWidth,
+        y: randomPipeY + pipeHeight + openingSpace,
+        width: pipeWidth,
+        height: pipeHeight,
+        passed: false
+    }
+    pipeArray.push(bottomPipe);
+   
 }
 
-// Call once on load
-resizeCanvas();
-// ...existing code...
 
