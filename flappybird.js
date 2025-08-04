@@ -32,7 +32,7 @@ let bottomPipeImg;
 //physics
 let velocityX = -2; //pipes moving left speed
 let velocityY = 1; //bird jump speed
-let gravity = 0.2;
+let gravity = 0.4;
 
 let gameOver = false;
 let score = 0;
@@ -98,7 +98,7 @@ function resizeCanvas() {
 
     // ปรับตัวแปรฟิสิกส์
     velocityX = -2 * widthScale;
-    gravity = 0.2 * heightScale;
+    gravity = 0.4 * heightScale;
 
     // วาดเกมใหม่
     if (!gameOver) {
@@ -186,7 +186,7 @@ if (gameOver) {
     // Draw "Press Space to Restart" text
     context.fillStyle = "white";
     context.font = "20px sans-serif";
-    context.fillText("Press Space or Tap to Restart", board.width / 2, board.height / 2 + 20);
+    context.fillText("Press Space or Jump to Restart", board.width / 2, board.height / 2 + 20);
     return; // Stop the update loop once the game is over
 }
 
