@@ -1,9 +1,44 @@
 body {
     font-family:'Courier New', Courier, monospace;
     text-align: center;
+    
 }
 
 #board {
     /* background-color: skyblue; */
+    background-color: cornflowerblue;
     background-image: url("./flappybirdbg03.png");
+    border: 2px solid black;
+    margin: 0 auto;
+}
+
+h1 {
+    color: white;
+}
+
+#jumpButton {
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    #board {
+        width: 90%; /* ให้ Canvas กว้าง 90% ของหน้าจอ */
+        height: auto; /* ปรับความสูงตามสัดส่วน */
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+     #jumpButton {
+        width: 80%; /* ให้ปุ่มกว้าง 80% ของหน้าจอ */
+        font-size: 1.5em;
+        padding: 20px 0;
+    }
 }

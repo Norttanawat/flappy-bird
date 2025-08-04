@@ -44,6 +44,11 @@ window.onload = function() {
     context = board.getContext("2d"); //used for drawing on the board
     const jumpButton = document.getElementById("jumpButton");// button phone jump
     jumpButton.addEventListener("click", moveBird);// button phone jump
+    document.addEventListener("touchstart", function(e) {
+        // ป้องกันการซูมหน้าจอเมื่อแตะ
+        e.preventDefault();
+        moveBird();
+    });
 }
 
     //draw flappy bird
@@ -170,4 +175,18 @@ function detectCollision(a, b) {
            a.y + a.height > b.y;    //a's bottom left corner passes b's top left corner
 }
 
+// ...existing code...
+window.addEventListener('resize', resizeCanvas);
+
+function resizeCanvas() {
+    const canvas = document.getElementById('board');
+    // Set canvas width and height based on window size
+    canvas.width = Math.min(window.innerWidth, 600);
+    canvas.height = Math.min(window.innerHeight * 0.6, 800);
+    // Optionally, redraw game elements here
+}
+
+// Call once on load
+resizeCanvas();
+// ...existing code...
 
